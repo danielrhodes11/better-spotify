@@ -18,7 +18,7 @@ const Player = ({
   });
 
   useEffect(() => {
-
+    console.log('activeSong:', activeSong, isPlaying);
   }, [activeSong, isPlaying, volume, seekTime]);
 
   useEffect(() => {
@@ -47,13 +47,13 @@ const Player = ({
 
   return (
     <audio
-      src={activeSong?.attributes?.url} // Adjust the path to match your API response structure
+      src={activeSong?.attributes?.uri} // Adjust the path to match your API response structure
       ref={ref}
       loop={repeat}
       onEnded={onEnded}
       onTimeUpdate={onTimeUpdate}
       onLoadedData={onLoadedData}
-      controls // Display controls for easier debugging
+      controls
     />
   );
 };
