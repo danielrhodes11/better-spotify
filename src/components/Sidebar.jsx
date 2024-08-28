@@ -1,12 +1,19 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { HiOutlineHashtag, HiOutlineHome, HiOutlineMenu, HiOutlinePhotograph, HiOutlineUserGroup } from 'react-icons/hi';
 import { RiCloseLine } from 'react-icons/ri';
-import { HiOutlineMenu } from 'react-icons/hi';
+
 import { logo } from '../assets';
-import { links } from '../assets/constants';
+
+const links = [
+  { name: 'Discover', to: '/', icon: HiOutlineHome },
+  { name: 'Around You', to: '/around-you', icon: HiOutlinePhotograph },
+  { name: 'Top Artists', to: '/top-artists', icon: HiOutlineUserGroup },
+  { name: 'Top Charts', to: '/top-charts', icon: HiOutlineHashtag },
+];
 
 const NavLinks = ({ handleClick }) => (
-  <div className='mt-10'>
+  <div className="mt-10">
     {links.map((item) => (
       <NavLink
         key={item.name}
@@ -24,38 +31,25 @@ const NavLinks = ({ handleClick }) => (
 const Sidebar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const toggleMenu = () => setMobileMenuOpen(!mobileMenuOpen);
-
   return (
     <>
-      {/* Sidebar for larger screens */}
-      <div className={`md:flex hidden flex-col w-[240px] py-10 px-4 bg-[#191624]`}>
-        <img src={logo} alt='logo' className='w-full h-14 object-contain mb-4' />
+      <div className="md:flex hidden flex-col w-[240px] py-10 px-4 bg-[#191624]">
+        <img src={logo} alt="logo" className="w-full h-14 object-contain" />
         <NavLinks />
       </div>
 
-      {/* Mobile menu toggle button */}
-      <div className='md:hidden flex items-center p-4 bg-[#191624] fixed top-0 right-0'>
-        <button
-          onClick={toggleMenu}
-          className='text-white text-2xl'
-        >
-          {mobileMenuOpen ? <RiCloseLine className="w-6 h-6 text-white mr-2" /> : <HiOutlineMenu />}
-        </button>
+      {/* Mobile sidebar */}
+      <div className="absolute md:hidden block top-6 right-3">
+        {!mobileMenuOpen ? (
+          <HiOutlineMenu className="w-6 h-6 mr-2 text-white" onClick={() => setMobileMenuOpen(true)} />
+        ) : (
+          <RiCloseLine className="w-6 h-6 mr-2 text-white" onClick={() => setMobileMenuOpen(false)} />
+        )}
       </div>
 
-      {/* Mobile sidebar */}
-      <div className={`fixed top-0 left-0 w-3/4 h-full bg-[#191624] p-4 z-10 transition-transform duration-300 ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className='flex justify-between items-center mb-4'>
-          <img src={logo} alt='logo' className='w-24 h-10 object-contain' />
-          <button
-            onClick={toggleMenu}
-            className='text-white text-2xl'
-          >
-            <RiCloseLine />
-          </button>
-        </div>
-        <NavLinks handleClick={toggleMenu} />
+      <div className={`absolute top-0 h-screen w-2/3 bg-gradient-to-tl from-white/10 to-[#483D8B] backdrop-blur-lg z-10 p-6 md:hidden smooth-transition ${mobileMenuOpen ? 'left-0' : '-left-full'}`}>
+        <img src={logo} alt="logo" className="w-full h-14 object-contain" />
+        <NavLinks handleClick={() => setMobileMenuOpen(false)} />
       </div>
     </>
   );
