@@ -47,7 +47,7 @@ const Player = ({
 
   return (
     <audio
-      src={activeSong?.attributes?.uri} // Adjust the path to match your API response structure
+      src={activeSong?.attributes?.previews[0].url}
       ref={ref}
       loop={repeat}
       onEnded={onEnded}
